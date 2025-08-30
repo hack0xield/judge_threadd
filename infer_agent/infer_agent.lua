@@ -236,29 +236,26 @@ Handlers.add(
             return
         end
         
-        -- Get paginated tasks efficiently
+        -- Convert tasks to array and sort by starttime (newest first)
+        local taskArray = {}
+        for reference, task in pairs(Tasks) do
+            table.insert(taskArray, {reference = reference, task = task})
+        end
+        
+        -- Sort by starttime (newest first)
+        table.sort(taskArray, function(a, b)
+            return a.task.starttime > b.task.starttime
+        end)
+        
+        -- Get paginated tasks from sorted array
         local paginatedTasks = {}
         local count = 0
-        local currentIndex = 0
         
-        -- Single pass through tasks with early exit
-        for reference, task in pairs(Tasks) do
-            currentIndex = currentIndex + 1
-            
-            -- Only process if within our page range
-            if currentIndex >= start and currentIndex < start + limit then
-                paginatedTasks[reference] = task
+        for i = start, math.min(start + limit - 1, #taskArray) do
+            if i <= #taskArray then
+                local item = taskArray[i]
+                paginatedTasks[item.reference] = item.task
                 count = count + 1
-                
-                -- Early exit if we've reached our limit
-                if count >= limit then
-                    break
-                end
-            end
-            
-            -- Early exit if we've passed our range
-            if currentIndex >= start + limit then
-                break
             end
         end
         
