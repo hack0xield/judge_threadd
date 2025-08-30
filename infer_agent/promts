@@ -1,0 +1,28 @@
+By looking at the twit and replies, given in json format, pick the most entertaining dialogue chain and show it as dialogue.
+The important here is to understand json format correctly and pick only one reply on each chain element : 
+
+By looking at the twit and replies, given in json format, try to understand IQ levels for each user, and create table to show them, score 0-100:
+
+By looking at the twit and replies, given in json format, try to understand IQ levels for each user, score 60-140, give output in simple dict format: 
+
+
+For this twit:
+'' everyone jumping on and hating AI right now is kind of silly\n\ny'all are the reason it got hyped out of orbit to begin with ''
+try to understand IQ level for the user and score it 60-140. Give a short explanation for your mark.
+Provide answer as json:
+{
+    "score": 65,
+    "reasoning": "Nonsensical, inside joke"
+}
+
+
+
+For this twit:
+'' everyone jumping on and hating AI right now is kind of silly\n\ny'all are the reason it got hyped out of orbit to begin with ''
+try to understand IQ level for the user and score it from min=60 to max=140. Give a short, 1-2 sentences explanation for your mark.
+Provide answer as json:
+{
+    "score": 65,
+    "reasoning": "Nonsensical, inside joke"
+}
+

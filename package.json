@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@permaweb/aoconnect": "^0.0.90",
+    "arweave": "^1.15.7",
+    "axios": "^1.11.0"
+  }
+}

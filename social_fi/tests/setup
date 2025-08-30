@@ -1,0 +1,67 @@
+----------------------------------------------------------------------------
+NFT token
+y42_vzJVM_22Wi_ehVLL02DtT-NCdyovoplTs3MEQh4
+--------------------------------------
+aos
+.load ./tests/test_token_v1.lua
+
+AuthorizedMinter = "qTNTqHi-sdYL44efKIaRft0uyci52TxzDxpdmQozZ9c" 
+-- test_logic ao.id
+
+Send({ Target = ao.id, Action = "Mint", To = "Pd9OMQMIFRz1okz9E6WzoFfJjSgZdB95aZntbOocFA4" }).receive().Data
+Send({ Target = ao.id, Action = "Mint", To = "Pd9OMQMIFRz1okz9E6WzoFfJjSgZdB95aZntbOocFA4" }).receive().Data
+
+Send({ Target = ao.id, Tags = { Action = "TokenInfo" } }).receive().Data
+Send({ Target = ao.id, Tags = { Action = "BalanceOf", Address = "Pd9OMQMIFRz1okz9E6WzoFfJjSgZdB95aZntbOocFA4" } }).receive().Data
+
+----------------------------------------------------------------------------
+AO test token
+fs4H2DDFnPHFj38QlszBVMgBieTZoHyjQC6fZ_HApio
+--------------------------------------
+aos
+.load-blueprint token
+
+----------------------------------------------------------------------------
+AO logic contract
+qTNTqHi-sdYL44efKIaRft0uyci52TxzDxpdmQozZ9c
+--------------------------------------
+aos
+.load ./tests/test_logic.lua
+
+s.tokenContractId = "y42_vzJVM_22Wi_ehVLL02DtT-NCdyovoplTs3MEQh4"
+-- test_token_v1 ao.id
+
+s.rewardManager = "Pd9OMQMIFRz1okz9E6WzoFfJjSgZdB95aZntbOocFA4"
+-- tests ao.id
+
+----------------------------------------------------------------------------
+AO tests
+Pd9OMQMIFRz1okz9E6WzoFfJjSgZdB95aZntbOocFA4
+
+user1 = "Ah2Rd3LFTHszeGBKdZY3tm2YBOH7uV6MlyVZ-ZQg36Q"
+user2 = "W-1ZqdttEYx9oIdvU130m2z8GxYSHqtjzU-qMoRFcD4"
+--------------------------------------
+aos
+.load ./tests/tests.lua
+
+s.parentTest = "qTNTqHi-sdYL44efKIaRft0uyci52TxzDxpdmQozZ9c"
+-- test_logic ao.id
+
+s.tokenContract = "y42_vzJVM_22Wi_ehVLL02DtT-NCdyovoplTs3MEQh4"
+-- AO NFT token ao.id
+
+s.nativeToken = "fs4H2DDFnPHFj38QlszBVMgBieTZoHyjQC6fZ_HApio"
+-- AO test token ao.id
+
+
+Send({ Target = ao.id, Action = "TestMintInitial" }).receive().Data
+
+Send({ Target = "qTNTqHi-sdYL44efKIaRft0uyci52TxzDxpdmQozZ9c", Action = "Mint",Rev1 = "",Id1 = 0,Rev2 = "W-1ZqdttEYx9oIdvU130m2z8GxYSHqtjzU-qMoRFcD4",Id2 = 1 }).receive().Data
+Send({ Target = "qTNTqHi-sdYL44efKIaRft0uyci52TxzDxpdmQozZ9c", Tags = { Action = "Mint",Rev1 = "",Id1 = 0,Rev2 = "W-1ZqdttEYx9oIdvU130m2z8GxYSHqtjzU-qMoRFcD4",Id2 = 1} }).receive().Data
+Send({ Target = ao.id, Action = "Mint" }).receive().Data
+
+Send({ Target = "qTNTqHi-sdYL44efKIaRft0uyci52TxzDxpdmQozZ9c", Action = "Mint",Rev1 = "",Rev2 = "W-1ZqdttEYx9oIdvU130m2z8GxYSHqtjzU-qMoRFcD4"}).receive().Data
+Send({ Target = "qTNTqHi-sdYL44efKIaRft0uyci52TxzDxpdmQozZ9c", Action = "Mint",Rev1 = "",Id1 = "0",Rev2 = "W-1ZqdttEYx9oIdvU130m2z8GxYSHqtjzU-qMoRFcD4",Id2 = "1" }).receive().Data
+
+
+

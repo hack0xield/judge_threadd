@@ -1,0 +1,57 @@
+import Arweave from "arweave";
+
+// Initialize Arweave
+const arweave = Arweave.init({
+  host: "arweave.net",
+  protocol: "https"
+});
+
+// Send AR tokens to the NFT contract
+async function payForNFT(wallet, contractAddress, amount) {
+  const transaction = await arweave.createTransaction({
+    target: contractAddress,
+    quantity: arweave.ar.arToWinston(amount)  // Convert AR to Winston (smallest unit)
+  }, wallet);
+
+  await arweave.transactions.sign(transaction, wallet);
+  await arweave.transactions.post(transaction);
+  
+  console.log("Payment sent! TXID:", transaction.id);
+}
+
+
+Your NFT contract has a wallet address (just like a regular user).
+When buyers send AR to mint NFTs, the AR tokens accumulate in the contract's wallet.
+To withdraw funds, you (the contract owner) need to manually send AR to your personal wallet.
+
+------------------------------------------------------------------------------------------------------
+user1 = "Gpefp7WBy9bLoesDPEtTeBRs1KU7hm3E29LM7YYJj7w"
+user2 = "W-1ZqdttEYx9oIdvU130m2z8GxYSHqtjzU-qMoRFcD4"
+----------------------------------------------------------------------------
+AO test token
+fs4H2DDFnPHFj38QlszBVMgBieTZoHyjQC6fZ_HApio
+--------------------------------------
+aos
+.load-blueprint token
+
+-- top up users
+Send({ Target = ao.id, Action = "Transfer", Recipient = "Gpefp7WBy9bLoesDPEtTeBRs1KU7hm3E29LM7YYJj7w", Quantity = "100" }).receive().Data
+Send({ Target = ao.id, Action = "Transfer", Recipient = "W-1ZqdttEYx9oIdvU130m2z8GxYSHqtjzU-qMoRFcD4", Quantity = "100" }).receive().Data
+
+
+-- from user
+Send({ Target = "fs4H2DDFnPHFj38QlszBVMgBieTZoHyjQC6fZ_HApio", Action = "Transfer", Recipient = "hNa9ScHet0JLvDiu0kTcs4krhOnaQWzmQ9J1QZ8xryY", Quantity = "100" }).receive().Data
+
+
+----------------------------------------------------------------------------
+AO Social-Fi
+hNa9ScHet0JLvDiu0kTcs4krhOnaQWzmQ9J1QZ8xryY
+--------------------------------------
+.load ./v1/social_fi.lua
+
+Send({ Target = ao.id, Action = "AddToQueue" }).receive().Data
+Send({ Target = ao.id, Action = "GetNextIdInQueue" }).receive().Data
+Send({ Target = ao.id, Action = "GetTokensByOwner", TokenOwner = ao.id }).receive().Data
+Dump(s.tokenOwners)
+
+Send({ Target = ao.id, Action = "Mint", Rev1 = "Gpefp7WBy9bLoesDPEtTeBRs1KU7hm3E29LM7YYJj7w", Id1 = "10", Rev2 = "W-1ZqdttEYx9oIdvU130m2z8GxYSHqtjzU-qMoRFcD4", Id2 = "9" }).receive().Data
