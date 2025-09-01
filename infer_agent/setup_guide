@@ -15,6 +15,8 @@ options = {max_tokens = 8000}
 ApusAI.infer(EXAMPLE_DATA, options)
 ApusAI.infer("How are you?", options)
 
+EXAMPLE_DATA = [[ "What is AO" ]]
+
 
 
 EXAMPLE_DATA = [[ {"user_name": "ThePrimeagen","tweet_id": "1958914095941296462","user_id": "291797158","text": "everyone jumping on and hating AI right now is kind of silly\n\ny'all are the reason it got hyped out of orbit to begin with"} ]]
@@ -33,6 +35,7 @@ Dump(Tasks["request_17"])
 ApusAI.getBalance()
 Inbox[#Inbox].Data
 
+Dump(Tasks["1958914095941296462_1756724043741"])
 
 Send({Target = "MMs2Ycxq46Pz3mC2bhz--4XFbPQjiDvR-9g-qKaxg2s", Action = "GetTasks"})
 Send({Target = "MMs2Ycxq46Pz3mC2bhz--4XFbPQjiDvR-9g-qKaxg2s", Action = "GetTasks", Tags = {{ name = "start", value = "1" }, { name = "limit", value = "1" }}})

@@ -247,14 +247,18 @@ Handlers.add(
             return a.task.starttime > b.task.starttime
         end)
         
-        -- Get paginated tasks from sorted array
+        -- Get paginated tasks from sorted array (preserving order)
         local paginatedTasks = {}
         local count = 0
         
         for i = start, math.min(start + limit - 1, #taskArray) do
             if i <= #taskArray then
                 local item = taskArray[i]
-                paginatedTasks[item.reference] = item.task
+                -- Keep the order by using table.insert instead of dict assignment
+                table.insert(paginatedTasks, {
+                    reference = item.reference,
+                    task = item.task
+                })
                 count = count + 1
             end
         end

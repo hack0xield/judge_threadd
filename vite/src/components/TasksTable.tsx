@@ -23,7 +23,10 @@ interface TasksResponse {
   total: number;
   count: number;
   has_more: boolean;
-  tasks: Record<string, Task>;
+  tasks: Array<{
+    reference: string;
+    task: Task;
+  }>;
 }
 
 const TasksTable: React.FC = () => {
@@ -52,7 +55,9 @@ const TasksTable: React.FC = () => {
       const raw = response?.Messages?.[0]?.Data;
       if (raw) {
         const data: TasksResponse = JSON.parse(raw);
-        setTasks(Object.values(data.tasks));
+        // Handle new array format where each item has {reference, task} structure
+        const processedTasks = data.tasks.map((item: any) => item.task);
+        setTasks(processedTasks);
         setTotal(data.total);
         setCurrentPage(page);
       }
