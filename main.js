@@ -3,6 +3,7 @@ globalThis.crypto = crypto.webcrypto;
 const sqlite = require("node:sqlite");
 const axios = require("axios");
 axios.defaults.withCredentials = true;
+const xapi = require("twitter-api-v2");
 const fs = require("fs");
 const ao = require("@permaweb/aoconnect");
 
@@ -64,14 +65,50 @@ const twGet = async (url) => {
   });
   return res.data;
 };
+//const twReply = async (tweetId, text) => {
+//  const xcl = new xapi.TwitterApi({
+//    appKey: config.xapikey,
+//    appSecret: config.xapisec,
+//    accessToken: config.xapiact,
+//    accessSecret: config.xapiacs,
+//  });
+//  return await xcl.v2.reply(text, tweetId);
+//}
+//(async()=>{
+//  console.log(await twReply("1928413057073463407", "yeah"));
+//  process.exit();
+//})();
 const twPost = async (url, data) => {
-  await sleep(120);
+  await sleep(10);
   const res = await axios.post(url, data, {
     headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${config.tautht0}`,
-      "X-Csrf-Token": config.tcsrft0,
-      Cookie: `auth_token=${config.tautht1}; ct0=${config.tcsrft0}`,
+      accept: "*/*",
+      "accept-language": "en-US,en;q=0.5",
+      authorization:
+        "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA",
+      "content-type": "application/json",
+      cookie: `guest_id_marketing=v1%3A175593803586397915; guest_id_ads=v1%3A175593803586397915; guest_id=v1%3A175593803586397915; d_prefs=MjoxLGNvbnNlbnRfdmVyc2lvbjoyLHRleHRfdmVyc2lvbjoxMDAw; __cuid=21c0863a52ae4a569a806ab5de84f9e6; kdt=IpdpXVUcTj7x1FHM2qZmGQCkVpX7CfQpkkrSBl5P; auth_token=2f087d897647e1c0382cc34e967dcf9b7257fe42; ct0=e637e90ff0fb9b3d8870b04c2867d950d30735b8dd004771a30990d2ce8a10eb8f8b1e0275f3e47b41c87babff7700d410f49d3202d7df10ca78f89903a4a6f4c38c387e20183a95bc1e76533a8cbb50; twid=u%3D1512411291268308993; personalization_id="v1_5t3e+t0N/f20OyDv/4vnjQ=="; lang=en; des_opt_in=Y; ph_phc_TXdpocbGVeZVm5VJmAsHTMrCofBQu3e0kN8HGMNGTVW_posthog=%7B%22distinct_id%22%3A%2201990550-72c1-74c0-80be-1e3d0848a6b4%22%2C%22%24sesid%22%3A%5B1756733480208%2C%2201990574-487f-7e20-a6ff-1ee758fa1d3a%22%2C1756733130879%5D%7D; __cf_bm=cjX3o0nRp6xyccOX4SNhsCIkmrj_kQNDOFq6r8tQP5I-1756761153-1.0.1.1-QF4DAZfRreKyXXBawHgYW8gDMR1O7Ss9iWgUPUPlRZwrpAQ_B0YC3TsP8Gi5QuTXr6SpuV.GGdZTc9wLweVA9APjojHSmqfl42qT.Gu1TTo`,
+      origin: "https://x.com",
+      priority: "u=1, i",
+      referer: "https://x.com",
+      "sec-ch-ua": `"Not;A=Brand";v="99", "Brave";v="139", "Chromium";v="139"`,
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": `"Linux"`,
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-origin",
+      "sec-gpc": "1",
+      "user-agent":
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+      "x-client-transaction-id":
+        "icoRMCE8DfvLcg60U3WQYmuYhYAQujmYhzBws1UxshQ5TCCX3ZbzwvtXiTAnXqpASqYg743SJatLcoBdWYwAAVK8uP/3ig",
+      "x-csrf-token":
+        "e637e90ff0fb9b3d8870b04c2867d950d30735b8dd004771a30990d2ce8a10eb8f8b1e0275f3e47b41c87babff7700d410f49d3202d7df10ca78f89903a4a6f4c38c387e20183a95bc1e76533a8cbb50",
+      "x-twitter-active-user": "yes",
+      "x-twitter-auth-type": "OAuth2Session",
+      "x-twitter-client-language": "en",
+      "x-xp-forwarded-for":
+        "ec9376bb56ec3106070b17b99d4f8b9b7a488fd6bd07dab2df21f564d01a8c7dd3166a6d0ffdde6832d365f3f372113706d214a69723f2fca58691ebb3d313cd9ea55da1a9e856f780d3bdd5cb5289b3400eff281d83680f6927d7769e22b30cd9d320b3745f6863b439584fda65315f33c212a2e4bbcfa04e4596237e20a1d1f01da19203905b480f1c0a9de41281a236bfadba08cfd80a1cebbc666726c8ad1de96773db533647891fde7908a45516a46ddbff614b63555d9b65c1b8183812f978dad4046745395db9f66d5430db378238179210e21dc5bddcd7f1f2a2a8168e594fb2cba39de0e9c24755324f8db6",
     },
   });
   return res.data;
@@ -128,12 +165,14 @@ const replyToTweet = async (tweetId, replyText) => {
   );
   return res;
 };
-// (async () =>
-//   console.log(
-//     JSON.stringify(
-//       await replyToTweet("1961891029419696514", "Yeah, that's what I'm saying"),
-//     ),
-//   ))();
+//(async () => {
+//  console.log(
+//    JSON.stringify(
+//      await replyToTweet("1928413057073463407", "Yeah, all right"),
+//    ),
+//  );
+//  process.exit();
+//})();
 const getTweet = async (tweetId) => {
   const reqv = encodeURIComponent(
     JSON.stringify({
