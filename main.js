@@ -369,6 +369,9 @@ const main = async () => {
       continue;
     }
     const tweet = await getTweet(root);
+    if (tweet.user_id == config.towntid) {
+      continue;
+    }
     const aoMid = await aoSendMessage(aopid, "Infer", JSON.stringify(tweet));
     let wait = 60;
     let retries = 3;
