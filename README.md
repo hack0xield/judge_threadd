@@ -1,4 +1,4 @@
-# SocialFi NFT-Pill System
+# Twitter AI Analysis System
 
 A decentralized AI-powered Twitter analysis system that automatically processes mentions, evaluates content through AI, and displays results in a web interface.
 
@@ -67,7 +67,7 @@ Twitter Mentions → AO Process → Frontend Display
 ```bash
 # Clone repository
 git clone <repository-url>
-cd twitterska
+cd judge_threadd
 
 # Install dependencies
 npm install
@@ -181,7 +181,7 @@ Create `config.json` with required tokens:
 
 ### Project Structure
 ```
-twitterska/
+judge_threadd/
 ├── main.js                 # Twitter agent
 ├── infer_agent/           # AO process code
 │   └── infer_agent.lua
