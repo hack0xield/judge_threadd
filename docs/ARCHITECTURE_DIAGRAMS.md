@@ -257,3 +257,114 @@
 - **State Persistence**: Maintains processing state across executions
 - **Response Validation**: Ensures consistent output format
 
+### 3.3 Deployment Architecture
+
+#### 3.3.1 Production Environment
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Load Balancer │    │   Web Server    │    │   Database      │
+│                 │    │                 │    │   Server        │
+│ • Nginx         │───▶│ • Node.js       │───▶│ • SQLite        │
+│ • SSL/TLS       │    │ • PM2 Process   │    │ • Backup        │
+│ • Rate Limiting │    │ • Auto Restart  │    │ • Monitoring    │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   CDN           │    │   Monitoring    │    │   Logging       │
+│                 │    │                 │    │                 │
+│ • Static Assets │    │ • Health Checks │    │ • Error Logs    │
+│ • Caching       │    │ • Performance   │    │ • Access Logs   │
+│ • Global Edge   │    │ • Alerts        │    │ • Analytics     │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
+
+#### 3.3.2 Development Environment
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Development   │    │   Local         │    │   Version       │
+│   Server        │    │   Database      │    │   Control       │
+│                 │    │                 │    │                 │
+│ • Hot Reload    │───▶│ • SQLite        │───▶│ • Git           │
+│ • Debug Mode    │    │ • Test Data     │    │ • Branches      │
+│ • Dev Tools     │    │ • Migrations    │    │ • CI/CD         │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
+
+#### 3.3.3 Security Architecture
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Firewall      │    │   Authentication│    │   Data          │
+│                 │    │                 │    │   Encryption    │
+│ • Port Filtering│───▶│ • API Keys      │───▶│ • TLS/SSL       │
+│ • DDoS Protection│   │ • JWT Tokens    │    │ • Database      │
+│ • IP Whitelist  │    │ • OAuth 2.0     │    │ • File System   │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
+
+---
+
+## 4. Deployment Architecture
+
+### 4.1 Infrastructure Requirements
+
+#### 4.1.1 Minimum System Requirements
+- **CPU**: 2 cores, 2.4GHz
+- **RAM**: 4GB minimum, 8GB recommended
+- **Storage**: 50GB SSD
+- **Network**: 100Mbps connection
+- **OS**: Ubuntu 20.04 LTS or higher
+
+#### 4.1.2 Production Deployment
+```bash
+# System setup
+sudo apt update && sudo apt upgrade -y
+sudo apt install nodejs npm nginx certbot -y
+
+# Application deployment
+git clone <repository>
+cd twitterska
+npm install
+npm run build
+
+# Process management
+npm install -g pm2
+pm2 start main.js --name "twitter-bot"
+pm2 startup
+pm2 save
+
+# Web server configuration
+sudo cp nginx.conf /etc/nginx/sites-available/
+sudo ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/
+sudo nginx -t && sudo systemctl reload nginx
+
+# SSL certificate
+sudo certbot --nginx -d yourdomain.com
+```
+
+#### 4.1.3 Monitoring & Maintenance
+```bash
+# Health monitoring
+pm2 monit
+pm2 logs twitter-bot
+
+# Database backup
+sqlite3 state.sqlite ".backup backup_$(date +%Y%m%d).db"
+
+# Log rotation
+sudo logrotate -f /etc/logrotate.d/twitter-bot
+```
+
+### 4.2 Scaling Considerations
+
+#### 4.2.1 Horizontal Scaling
+- **Load Balancer**: Distribute traffic across multiple instances
+- **Database**: Consider PostgreSQL for multi-instance deployments
+- **Caching**: Redis for session and data caching
+- **Queue System**: Bull/BullMQ for job processing
+
+#### 4.2.2 Performance Optimization
+- **CDN**: CloudFlare for static asset delivery
+- **Compression**: Gzip compression for API responses
+- **Connection Pooling**: Database connection optimization
+- **Memory Management**: Node.js heap size tuning

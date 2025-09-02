@@ -6,8 +6,8 @@
 3. [Twitter API Integration](#3-twitter-api-integration)
 4. [OpenAI API Integration](#4-openai-api-integration)
 5. [AO Network API](#5-ao-network-api)
-7. [Error Handling](#7-error-handling)
-8. [Rate Limiting](#8-rate-limiting)
+6. [Error Handling](#6-error-handling)
+7. [Rate Limiting](#7-rate-limiting)
 
 ---
 
@@ -453,11 +453,11 @@ const standardTags = [
 
 ---
 
-## 7. Error Handling
+## 6. Error Handling
 
-### 7.1 Twitter API Errors
+### 6.1 Twitter API Errors
 
-#### 7.1.1 Rate Limit Errors
+#### 6.1.1 Rate Limit Errors
 ```javascript
 try {
   const response = await twGet(url);
@@ -472,7 +472,7 @@ try {
 }
 ```
 
-#### 7.1.2 Authentication Errors
+#### 6.1.2 Authentication Errors
 ```javascript
 if (error.response?.status === 401) {
   console.error("Twitter authentication failed");
@@ -481,16 +481,16 @@ if (error.response?.status === 401) {
 }
 ```
 
-### 7.2 OpenAI API Errors
+### 6.2 OpenAI API Errors
 
-#### 7.2.1 API Key Errors
+#### 6.2.1 API Key Errors
 ```javascript
 if (error.response?.status === 401) {
   throw new Error("Invalid OpenAI API key");
 }
 ```
 
-#### 7.2.2 Rate Limit Errors
+#### 6.2.2 Rate Limit Errors
 ```javascript
 if (error.response?.status === 429) {
   const retryAfter = error.response.headers['retry-after'];
@@ -499,9 +499,9 @@ if (error.response?.status === 429) {
 }
 ```
 
-### 7.3 AO Network Errors
+### 6.3 AO Network Errors
 
-#### 7.3.1 Process Errors
+#### 6.3.1 Process Errors
 ```javascript
 try {
   const task = await getTask(tweetId);
@@ -513,7 +513,7 @@ try {
 }
 ```
 
-#### 7.3.2 Network Errors
+#### 6.3.2 Network Errors
 ```javascript
 if (error.code === 'NETWORK_ERROR') {
   console.error("AO network connection failed");
@@ -524,9 +524,9 @@ if (error.code === 'NETWORK_ERROR') {
 }
 ```
 
-### 7.4 General Error Handling
+### 6.4 General Error Handling
 
-#### 7.4.1 Error Logging
+#### 6.4.1 Error Logging
 ```javascript
 const logger = {
   error: (message, error) => {
@@ -544,7 +544,7 @@ const logger = {
 };
 ```
 
-#### 7.4.2 Retry Logic
+#### 6.4.2 Retry Logic
 ```javascript
 const retryWithBackoff = async (fn, maxRetries = 3, baseDelay = 1000) => {
   for (let i = 0; i < maxRetries; i++) {
@@ -562,11 +562,11 @@ const retryWithBackoff = async (fn, maxRetries = 3, baseDelay = 1000) => {
 
 ---
 
-## 8. Rate Limiting
+## 7. Rate Limiting
 
-### 8.1 Twitter API Rate Limits
+### 7.1 Twitter API Rate Limits
 
-#### 8.1.1 GET Requests
+#### 7.1.1 GET Requests
 ```javascript
 const twGet = async (url) => {
   await sleep(10); // 10-second delay
@@ -579,7 +579,7 @@ const twGet = async (url) => {
 **Purpose**: Prevent API rate limit violations  
 **Implementation**: Built-in sleep function  
 
-#### 8.1.2 POST Requests
+#### 7.1.2 POST Requests
 ```javascript
 const twPost = async (url, data) => {
   await sleep(120); // 120-second delay
@@ -592,9 +592,9 @@ const twPost = async (url, data) => {
 **Purpose**: Prevent tweet posting abuse  
 **Implementation**: Built-in sleep function  
 
-### 8.2 OpenAI API Rate Limits
+### 7.2 OpenAI API Rate Limits
 
-#### 8.2.1 Request Throttling
+#### 7.2.1 Request Throttling
 ```javascript
 // OpenAI doesn't have strict rate limits like Twitter
 // But we implement reasonable delays for good API citizenship
@@ -605,9 +605,9 @@ const openaiRequest = async (data) => {
 };
 ```
 
-### 8.3 AO Network Rate Limits
+### 7.3 AO Network Rate Limits
 
-#### 8.3.1 Message Rate Limiting
+#### 7.3.1 Message Rate Limiting
 ```javascript
 // AO network has minimal rate limits
 // But we implement delays for system stability
@@ -617,9 +617,9 @@ const aoMessage = async (to, action, message) => {
 };
 ```
 
-### 8.4 Adaptive Rate Limiting
+### 7.4 Adaptive Rate Limiting
 
-#### 8.4.1 Exponential Backoff
+#### 7.4.1 Exponential Backoff
 ```javascript
 const adaptiveDelay = async (baseDelay, multiplier = 2, maxDelay = 300) => {
   let currentDelay = baseDelay;
@@ -637,7 +637,7 @@ const adaptiveDelay = async (baseDelay, multiplier = 2, maxDelay = 300) => {
 };
 ```
 
-#### 8.4.2 Dynamic Rate Limiting
+#### 7.4.2 Dynamic Rate Limiting
 ```javascript
 const rateLimiter = {
   delays: {
