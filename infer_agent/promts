@@ -26,3 +26,13 @@ Provide answer as json:
     "reasoning": "Nonsensical, inside joke"
 }
 
+
+For this twit:
+'' everyone jumping on and hating AI right now is kind of silly\n\ny'all are the reason it got hyped out of orbit to begin with ''
+try to understand IQ level for the user and score it from min=60 to max=140. Give a short, 150 max symbols explanation for your mark.
+Provide answer as json:
+{
+    "score": 65,
+    "reasoning": "Nonsensical, inside joke"
+}
+

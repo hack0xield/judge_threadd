@@ -267,7 +267,7 @@ const judgeOffChain = async (tweet) => {
       input: [
         {
           role: "user",
-          content: `For this tweet "${tweet.text.replace(/\s+/g, " ")}" try to estimate IQ level of the author and score it from min=60 to max=140. Give a short, 1-2 sentences, explanation for your estimate`,
+          content: `For this tweet "${tweet.text.replace(/\s+/g, " ")}" try to estimate IQ level of the author and score it from min=60 to max=140. Give a short, 150 max symbols explanation for your estimate.`,
         },
       ],
       text: {
