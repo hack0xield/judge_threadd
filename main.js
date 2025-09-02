@@ -32,23 +32,33 @@ const aoSendMessage = async (to, action, message) =>
     tags: [{ name: "Action", value: action }],
   });
 const getTask = async (tweetId) => {
-  const res = JSON.parse(
-    (
-      await ao.dryrun({
-        process: aopid,
-        data: "",
-        tags: [
-          { name: "Action", value: "GetTaskByTid" },
-          { name: "Tid", value: tweetId },
-        ],
-        anchor: "1234",
-      })
-    ).Messages[0].Data,
-  );
-  if (!res.success) {
-    throw new Error("failed to get task: " + tweetId);
+  try {
+    const response = await ao.dryrun({
+      process: aopid,
+      data: "",
+      tags: [
+        { name: "Action", value: "GetTaskByTid" },
+        { name: "Tid", value: tweetId },
+      ],
+      anchor: "1234",
+    });
+    
+    // Check if we got a valid response
+    if (!response || !response.Messages || !response.Messages[0] || !response.Messages[0].Data) {
+      console.log(`Warning: No valid response from AO for tweet ${tweetId}`);
+      return null;
+    }
+    
+    const res = JSON.parse(response.Messages[0].Data);
+    if (!res.success) {
+      console.log(`Warning: AO returned unsuccessful response for tweet ${tweetId}: ${res.error || 'Unknown error'}`);
+      return null;
+    }
+    return res.task;
+  } catch (error) {
+    console.log(`Warning: Failed to get task for tweet ${tweetId}: ${error.message}`);
+    return null;
   }
-  return res.task;
 };
 
 // (async()=> console.log(await getTask("1")))();
@@ -387,7 +397,7 @@ const main = async () => {
       retries -= 1;
       const task = await getTask(root);
       console.log(task);
-      if (task.status == "success") {
+      if (task && task.status == "success") {
         llmres = task.response;
         llmres.source = "apus";
         break;

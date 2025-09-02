@@ -55,3 +55,24 @@ Send({ Target = ao.id, Action = "GetTokensByOwner", TokenOwner = ao.id }).receiv
 Dump(s.tokenOwners)
 
 Send({ Target = ao.id, Action = "Mint", Rev1 = "Gpefp7WBy9bLoesDPEtTeBRs1KU7hm3E29LM7YYJj7w", Id1 = "10", Rev2 = "W-1ZqdttEYx9oIdvU130m2z8GxYSHqtjzU-qMoRFcD4", Id2 = "9" }).receive().Data
+
+
+*********************************************************************************************************************
+
+ao.send({ Target = "0syT13r0s0tgPmIed95bJnuSqaD29HQNN8D3ElLSrsc", Tags = { Action = "Balance" } })
+
+
+Social-Fi
+hNa9ScHet0JLvDiu0kTcs4krhOnaQWzmQ9J1QZ8xryY
+
+
+Send({ Target = ao.id, Action = "Mint", Rev1 = "Gpefp7WBy9bLoesDPEtTeBRs1KU7hm3E29LM7YYJj7w", Id1 = "11", Rev2 = "W-1ZqdttEYx9oIdvU130m2z8GxYSHqtjzU-qMoRFcD4", Id2 = "9" }).receive().Data
+
+main wallet AO address
+Owner = "fcoN_xJeisVsPXA-trzVAuIiqO3ydLQxM-L4XbrQKzY"
+
+local wallet AO address
+Owner = "fcoN_xJeisVsPXA-trzVAuIiqO3ydLQxM-L4XbrQKzY"
+
+Send({ Target = ao.id, Action = "AddToQueue" })
+

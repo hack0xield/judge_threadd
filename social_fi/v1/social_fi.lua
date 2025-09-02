@@ -229,7 +229,7 @@ end
 
 Handlers.add('mint', 'Mint', function(msg)
     local tags = msg.Tags
-    if msg.From ~= ao.id then
+    if msg.From ~= ao.id and msg.Owner ~= s.rewardManager then
         return replyError(msg, 'Mint', 'Only internal use')
     end
     if not (tags.Rev1 and tags.Id1 and tags.Rev2 and tags.Id2) then
@@ -342,7 +342,7 @@ Handlers.add('purchaseNft', 'Credit-Notice', function(msg)
 end)
 
 Handlers.add('addToQueue', 'AddToQueue', function(msg)
-    if msg.From ~= ao.id then
+    if msg.From ~= ao.id and msg.Owner ~= s.rewardManager then
         return replyError(msg, 'AddToQueue', 'Only internal use')
     end
 
