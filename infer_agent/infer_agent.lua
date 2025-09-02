@@ -18,7 +18,7 @@ local function constructPrompt(text)
     local cleanText = text:gsub("\n", " ")
     
     local basePrompt = "For this twit: '' "
-    local endPrompt = " '' try to understand IQ level for the user and score it from min=60 to max=140. Give a short, 150 max symbols explanation for your estimate. Provide answer as json: {\"score\": 65, \"reasoning\": \"Nonsensical, inside joke\"}"
+    local endPrompt = " '' try to understand IQ level for the user and score it from min=60 to max=140. Give a short, 100 max сharacters explanation for your estimate. Provide answer as json: {\"score\": 65, \"reasoning\": \"Nonsensical, inside joke\"}"
     
     return basePrompt .. cleanText .. endPrompt
 end
